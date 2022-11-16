@@ -85,14 +85,15 @@ class LinksCollector:
             json.dump({'1': organizations_hrefs}, file)
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("type_org", help="organization type")
-args = parser.parse_args()
-type_org = args.type_org
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("type_org", help="organization type")
+    args = parser.parse_args()
+    type_org = args.type_org
 
-for district in districts:
-    sleep(1)
-    driver = webdriver.Safari()
-    grabber = LinksCollector(driver)
-    grabber.run(city="Москва", district=district, type_org_ru=type_org_mapping[type_org], type_org=type_org)
+    for district in districts:
+        sleep(1)
+        driver = webdriver.Safari()
+        grabber = LinksCollector(driver)
+        grabber.run(city="Москва", district=district, type_org_ru=type_org_mapping[type_org], type_org=type_org)
 

@@ -74,21 +74,22 @@ class Parser:
         self.driver.quit()
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("type_org", help="organization type")
-args = parser.parse_args()
-type_org = args.type_org
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("type_org", help="organization type")
+    args = parser.parse_args()
+    type_org = args.type_org
 
-all_hrefs = []
-files = os.listdir(f'links/{type_org}')
-for file in files:
-    with open(f'links/{type_org}/{file}', 'r', encoding='utf-8') as f:
-        hrefs = json.load(f)['1']
-        all_hrefs += hrefs
-all_hrefs = list(set(all_hrefs))
-print('all_hrefs', len(all_hrefs))
+    all_hrefs = []
+    files = os.listdir(f'links/{type_org}')
+    for file in files:
+        with open(f'links/{type_org}/{file}', 'r', encoding='utf-8') as f:
+            hrefs = json.load(f)['1']
+            all_hrefs += hrefs
+    all_hrefs = list(set(all_hrefs))
+    print('all_hrefs', len(all_hrefs))
 
 
-driver = webdriver.Safari()
-parser = Parser(driver)
-parser.parse_data(all_hrefs, type_org)
+    driver = webdriver.Safari()
+    parser = Parser(driver)
+    parser.parse_data(all_hrefs, type_org)
