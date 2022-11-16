@@ -1,0 +1,6 @@
+beautifulsoup4==4.9.3
+lxml>=4.6.5
+selenium==3.141.0
+soupsieve==2.2.1
+urllib3==1.26.6
+pandas==1.4.2
