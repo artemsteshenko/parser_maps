@@ -9,7 +9,7 @@ import pandas as pd
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
-from infogetter import InfoGetter
+from soup_parser import SoupContentParser
 from utils import json_pattern
 
 
@@ -17,6 +17,7 @@ class Parser:
 
     def __init__(self, driver):
         self.driver = driver
+        self.soup_parser = SoupContentParser()
 
     def parse_data(self, hrefs, type_org):
         self.driver.maximize_window()
@@ -31,17 +32,17 @@ class Parser:
                 self.driver.execute_script(f'window.open("{organization_url}","org_tab");')
                 child_handle = [x for x in self.driver.window_handles if x != parent_handle][0]
                 self.driver.switch_to.window(child_handle)
-                sleep(1)
+                sleep(0.7)
                 soup = BeautifulSoup(self.driver.page_source, "lxml")
                 org_id += 1
-                name = InfoGetter.get_name(soup)
-                address = InfoGetter.get_address(soup)
-                website = InfoGetter.get_website(soup)
-                opening_hours = InfoGetter.get_opening_hours(soup)
+                name = self.soup_parser.get_name(soup)
+                address = self.soup_parser.get_address(soup)
+                website = self.soup_parser.get_website(soup)
+                opening_hours = self.soup_parser.get_opening_hours(soup)
                 ypage = self.driver.current_url
-                rating = InfoGetter.get_rating(soup)
-                social = InfoGetter.get_social(soup)
-                phone = InfoGetter.get_phone(soup)
+                rating = self.soup_parser.get_rating(soup)
+                social = self.soup_parser.get_social(soup)
+                phone = self.soup_parser.get_phone(soup)
                 goods, reviews = None, None
                 output = json_pattern.into_json(org_id, name, address, website, opening_hours, ypage, goods, rating,
                                                 reviews, phone, social)

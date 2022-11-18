@@ -91,9 +91,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     type_org = args.type_org
 
-    for district in districts:
-        sleep(1)
-        driver = webdriver.Safari()
-        grabber = LinksCollector(driver)
-        grabber.run(city="Москва", district=district, type_org_ru=type_org_mapping[type_org], type_org=type_org)
+    for type_org in ['translator', 'accountant', 'massage']:
+        for district in districts:
+            sleep(1)
+            driver = webdriver.Safari()
+            grabber = LinksCollector(driver)
+            grabber.run(city="Москва", district=district, type_org_ru=type_org_mapping[type_org], type_org=type_org)
 
