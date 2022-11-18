@@ -11,12 +11,18 @@ from utils.constants import districts, ACCEPT_BUTTON, type_org_mapping
 
 class LinksCollector:
 
-    def __init__(self, driver, link='https://yandex.ru/maps', max_errors=5, accept_button=ACCEPT_BUTTON):
+    def __init__(self,
+                 driver,
+                 link='https://yandex.ru/maps',
+                 max_errors=5,
+                 accept_button=ACCEPT_BUTTON,
+                 accept=False):
         self.driver = driver
         self.slider = None
         self.max_errors = max_errors
         self.link = link
         self.accept_button = accept_button
+        self.accept = accept
 
     def _init_driver(self):
         self.driver.maximize_window()
@@ -32,21 +38,22 @@ class LinksCollector:
         sleep(random.uniform(1.4, 2))
         self.slider = self.driver.find_element_by_class_name(name='scroll__scrollbar-thumb')
 
+        if self.accept:
         # Соглашение куки
-        # flag = True
-        # count = 0
-        # while flag:
-        #     try:
-        #         count += 1
-        #         sleep(3)
-        #         self.driver.find_element_by_xpath(self.accept_button).click()
-        #         flag = False
-        #     except:
-        #         if count > 5:
-        #             self.driver.quit()
-        #             self.init_driver()
-        #             self.open_page(request)
-        #         flag = True
+            flag = True
+            count = 0
+            while flag:
+                try:
+                    count += 1
+                    sleep(3)
+                    self.driver.find_element_by_xpath(self.accept_button).click()
+                    flag = False
+                except:
+                    if count > 5:
+                        self.driver.quit()
+                        self._init_driver()
+                        self._open_page(request)
+                    flag = True
 
 
     def run(self, city, district, type_org_ru, type_org):
